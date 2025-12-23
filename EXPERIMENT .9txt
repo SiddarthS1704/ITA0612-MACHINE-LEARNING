@@ -1,0 +1,36 @@
+# Sample data
+x = [1, 2, 3, 4, 5]
+y = [2, 4, 9, 16, 25]
+
+n = len(x)
+
+# ---------- Linear Regression ----------
+sx = sum(x)
+sy = sum(y)
+sxy = sum(x[i] * y[i] for i in range(n))
+sx2 = sum(x[i] ** 2 for i in range(n))
+
+m = (n * sxy - sx * sy) / (n * sx2 - sx ** 2)
+c = (sy - m * sx) / n
+
+y_linear = [m * xi + c for xi in x]
+
+# ---------- Polynomial Regression (Degree 2) ----------
+# Solving normal equations manually
+sx3 = sum(xi ** 3 for xi in x)
+sx4 = sum(xi ** 4 for xi in x)
+sx2y = sum((x[i] ** 2) * y[i] for i in range(n))
+
+# Coefficients (a, b, c) for y = ax^2 + bx + c
+a = (n * sx2y - sx2 * sy) / (n * sx4 - sx2 ** 2)
+b = (sy - a * sx2) / sx
+c2 = (sy - a * sx2 - b * sx) / n
+
+y_poly = [a * xi ** 2 + b * xi + c2 for xi in x]
+
+# ---------- Output ----------
+print("Linear Regression values:")
+print(y_linear)
+
+print("\nPolynomial Regression values:")
+print(y_poly)
