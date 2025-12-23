@@ -1,0 +1,14 @@
+# Credit Score Classification Program
+
+income = int(input("Enter annual income: "))
+credit_years = int(input("Enter credit history (years): "))
+defaults = input("Any loan defaults (Yes/No): ")
+
+if income >= 50000 and credit_years >= 5 and defaults.lower() == "no":
+    score = "GOOD"
+elif income >= 30000 and credit_years >= 2:
+    score = "AVERAGE"
+else:
+    score = "POOR"
+
+print("Credit Score Category:", score)
