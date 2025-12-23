@@ -1,0 +1,42 @@
+import math
+
+# Sample data
+data = [1, 2, 3, 8, 9, 10]
+
+# Initial parameters
+mean1, mean2 = 2, 9
+var1, var2 = 1, 1
+pi1, pi2 = 0.5, 0.5
+
+def gaussian(x, mean, var):
+    return (1 / math.sqrt(2 * math.pi * var)) * math.exp(-(x - mean) ** 2 / (2 * var))
+
+# EM Algorithm
+for step in range(5):
+    r1, r2 = [], []
+
+    # -------- E-Step --------
+    for x in data:
+        p1 = pi1 * gaussian(x, mean1, var1)
+        p2 = pi2 * gaussian(x, mean2, var2)
+        total = p1 + p2
+        r1.append(p1 / total)
+        r2.append(p2 / total)
+
+    # -------- M-Step --------
+    sum_r1 = sum(r1)
+    sum_r2 = sum(r2)
+
+    mean1 = sum(r1[i] * data[i] for i in range(len(data))) / sum_r1
+    mean2 = sum(r2[i] * data[i] for i in range(len(data))) / sum_r2
+
+    var1 = sum(r1[i] * (data[i] - mean1) ** 2 for i in range(len(data))) / sum_r1
+    var2 = sum(r2[i] * (data[i] - mean2) ** 2 for i in range(len(data))) / sum_r2
+
+    pi1 = sum_r1 / len(data)
+    pi2 = sum_r2 / len(data)
+
+# Output
+print("Final Parameters:")
+print("Mean 1:", round(mean1, 2), "Variance 1:", round(var1, 2))
+print("Mean 2:", round(mean2, 2), "Variance 2:", round(var2, 2))
